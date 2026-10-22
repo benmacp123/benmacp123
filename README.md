@@ -2,7 +2,7 @@
 
 I turn research algorithms into production systems on AWS: Python,
 serverless and GIS. By day I build the Python products behind real-time
-power-grid measurement at Reactive Technologies in Glasgow. In my own time
+power-grid measurement at Reactive Technologies. In my own time
 I apply the same engineering to conservation, building pipelines on open
 wildlife data that a field team could trust.
 
