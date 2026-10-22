@@ -1,10 +1,9 @@
 ### Hi, I'm Benjamin
 
 I turn research algorithms into production systems on AWS: Python,
-serverless and GIS. By day I build the Python products behind real-time
-power-grid measurement at Reactive Technologies. In my own time
-I apply the same engineering to conservation, building pipelines on open
-wildlife data that a field team could trust.
+serverless and GIS. In my career I build the Python products behind real-time
+power-grid measurement. In my own time I apply the same engineering to conservation, 
+building pipelines on open wildlife data that a field team could trust.
 
 Every project here runs from committed data with no accounts or keys, is
 scored against data it never saw, and reports the result honestly, even
