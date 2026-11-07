@@ -5,11 +5,27 @@ serverless and GIS. In my career I build the Python products behind real-time
 power-grid measurement. In my own time I apply the same engineering to conservation,
 building pipelines on open wildlife data that a field team could trust.
 
-Every project here runs from committed data with no accounts or keys, is
-scored against data it never saw, and reports the result honestly, even
-when it is negative.
+Every project here runs from committed or public data with no accounts or
+keys, is scored on data held out from tuning, and reports the result honestly,
+even when it is negative.
+
+I'm open to projects in conservation and environmental data. You can reach me
+on [LinkedIn](https://www.linkedin.com/in/benjamin-david-macpherson-332052197).
 
 ### Projects
+
+**[camera-trap-mlops](https://github.com/benmacp123/camera-trap-mlops)** (in
+progress): decides, site by site, whether to trust an off-the-shelf camera-trap
+classifier (SpeciesNet, BioCLIP 2) or replace it with an adapted one. The test
+was fixed in advance, then ten camera sites held out from all tuning were scored
+once.
+- A small classifier on DINOv2 embeddings beat BioCLIP 2 zero-shot at all ten
+  sites, though by under 2 points at three. Balanced accuracy rose by 9.7 points
+  on average (95% interval 5.5 to 15.0).
+- It needs labelled photos where the off-the-shelf model needs none, and these
+  sites share a study region, so the result says nothing about a new region.
+- Still to build: a per-site trust report and label-free signs that the decision
+  needs revisiting.
 
 **[collar-telemetry](https://github.com/benmacp123/collar-telemetry)**:
 an alerting pipeline for wildlife GPS collars. It turns late, duplicated
@@ -17,8 +33,9 @@ and missing fixes into alerts for possible deaths, silent collars, unusual
 movement and park-boundary crossings, scored against real recorded deaths
 in public Movebank data.
 - Every held-out vulture death raised an alert (10 of 10), but only 3% of
-  fast mortality alerts were real; the slower "potential death" alert was
-  right 29-43% of the time, ten to fifteen times more trustworthy.
+  fast mortality alerts were real (95% interval 0.9-8.0%). The slower "potential
+  death" alert did better: 29% (8.6-83%) with ideal data arrival and 43% (15-88%)
+  with daily satellite uploads. With so few deaths, those intervals are wide.
 - On Kruger elephants, every "left the park" alert came from the unfenced
   western edge shared with private reserves: the boundary matters as much
   as the detector.
@@ -51,13 +68,6 @@ were frozen before a held-out block of 542 unseen vessels was scored once.
   forecasting models failed to beat naive baselines, both documented as
   negative results; a third version shows survey precision matters more
   than frequency for catching a real decline in roan, sable and tsessebe.
-
-### In progress
-
-- **[camera-trap-mlops](https://github.com/benmacp123/camera-trap-mlops)**:
-  decides, site by site, whether to trust a zero-shot camera-trap
-  classifier (SpeciesNet, BioCLIP 2) or replace it with an adapted one,
-  and watches for label-free signs that the decision needs revisiting.
 
 ### Tools
 
