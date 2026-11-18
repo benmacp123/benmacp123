@@ -14,28 +14,41 @@ on [LinkedIn](https://www.linkedin.com/in/benjamin-david-macpherson-332052197).
 
 ### Projects
 
-**[camera-trap-mlops](https://github.com/benmacp123/camera-trap-mlops)** (in
-progress): decides, site by site, whether to trust an off-the-shelf camera-trap
+**[camera-trap-mlops](https://github.com/benmacp123/camera-trap-mlops)**:
+decides, site by site, whether to trust an off-the-shelf camera-trap
 classifier (SpeciesNet, BioCLIP 2) or replace it with an adapted one. The test
-was fixed in advance, then ten camera sites held out from all tuning were scored
-once.
+was fixed and hashed in advance, then ten camera sites held out from all tuning
+were scored once.
 - A small classifier on DINOv2 embeddings beat BioCLIP 2 zero-shot at all ten
-  sites, though by under 2 points at three. Balanced accuracy rose by 9.7 points
-  on average (95% interval 5.5 to 15.0).
-- It needs labelled photos where the off-the-shelf model needs none, and these
-  sites share a study region, so the result says nothing about a new region.
-- Still to build: a per-site trust report and label-free signs that the decision
-  needs revisiting.
+  sites: balanced accuracy 0.933 against 0.836, a gain of 9.7 points (95%
+  interval 5.5 to 15.0). Fine-tuning a whole CNN beat zero-shot but not the
+  small classifier, after 14 hours of training against seconds. The promoted
+  model is [published on Hugging Face](https://huggingface.co/benmacp123/orinoquia-dinov2-probe).
+- The checks built to watch it afterwards were mostly modest or negative, and
+  are reported as they fell: the model's confidence ranks sites by accuracy
+  but predicts a site's accuracy only about a point better than guessing the
+  average, and labelling twenty sequences per site moved accuracy by 0.3
+  points. Sending answers under 50% confidence to a person means reviewing
+  6.6% of sequences and cuts errors from 7.8% to 4.1%.
+- Measured on AWS Lambda at $0.267 per 10,000 crops, with the same answers as
+  the local model. One study area in Colombia, so it says nothing about a new
+  region.
 
-**[collar-telemetry](https://github.com/benmacp123/collar-telemetry)**:
-an alerting pipeline for wildlife GPS collars. It turns late, duplicated
-and missing fixes into alerts for possible deaths, silent collars, unusual
-movement and park-boundary crossings, scored against real recorded deaths
-in public Movebank data.
+**[collar-telemetry](https://github.com/benmacp123/collar-telemetry)**
+(in progress): an alerting pipeline for wildlife GPS collars. It turns late,
+duplicated and missing fixes into alerts for possible deaths, silent collars,
+unusual movement and park-boundary crossings, scored against real recorded
+deaths in public Movebank data.
 - Every held-out vulture death raised an alert (10 of 10), but only 3% of
-  fast mortality alerts were real (95% interval 0.9-8.0%). The slower "potential
-  death" alert did better: 29% (8.6-83%) with ideal data arrival and 43% (15-88%)
-  with daily satellite uploads. With so few deaths, those intervals are wide.
+  fast mortality alerts were real. Stillness alone cannot say a bird is dead:
+  living vultures sit still for that long about 70 times as often as carcasses
+  appear. The slower "potential death" alert did better: 27% (8.1-77%) with
+  ideal data arrival and 40% (14-80%) with daily satellite uploads. With five
+  carcasses, those intervals are wide.
+- So the fast alert became a self-clearing "stationary: check" watch, and only
+  an escalated tier that needs independent evidence is sent to a person.
+  Targets for each tier were fixed before anything is scored again, to be
+  validated once on studies not used so far.
 - On Kruger elephants, every "left the park" alert came from the unfenced
   western edge shared with private reserves: the boundary matters as much
   as the detector.
@@ -63,17 +76,19 @@ were frozen before a held-out block of 542 unseen vessels was scored once.
 
 ### Also
 
-- **[population-model](https://github.com/benmacp123/population-model)**:
-  how far can noisy aerial counts of Kruger herbivores be trusted? Two
-  forecasting models failed to beat naive baselines, both documented as
-  negative results; a third version shows survey precision matters more
-  than frequency for catching a real decline in roan, sable and tsessebe.
+- **[population-model](https://github.com/benmacp123/population-model)**
+  (closed): how far can noisy aerial counts of Kruger herbivores be trusted?
+  Two forecasting models failed to beat naive baselines, both documented as
+  negative results. A third version simulated how reliably a threshold alert
+  catches a real decline in roan, sable and tsessebe; a later review of it
+  found its headline numbers depended on how the question was set up, and the
+  README now says so.
 
 ### Tools
 
 Python · AWS (Lambda, SQS, DynamoDB, SNS, EventBridge) · Terraform ·
 Docker · polars and DuckDB · GIS (shapely, GeoJSON) · state-space models and Kalman filters ·
-pytest · GitHub Actions
+held-out evaluation and paired bootstrap · Hugging Face · pytest · GitHub Actions
 
 ### Background
 
